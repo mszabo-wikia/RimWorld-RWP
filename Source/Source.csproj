@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<Nullable>disable</Nullable>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<RootNamespace>RWP</RootNamespace>
+		<AssemblyName>RWP</AssemblyName>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<!-- Relax documentation requirements to avoid the proliferation of useless documentation blocks -->
+		<NoWarn>1591</NoWarn>
+		<Configurations>RW12Debug;RW12Release;RW13Debug;RW13Release</Configurations>
+		<Copyright>Copyright © Máté Szabó</Copyright>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)'=='RW12Debug' Or '$(Configuration)'=='RW12Release'">
+		<OutputPath>..\1.2\Assemblies\</OutputPath>
+		<DefineConstants>RW12</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='RW13Debug' Or '$(Configuration)'=='RW13Release'">
+		<OutputPath>..\1.3\Assemblies\</OutputPath>
+		<DefineConstants>RW13</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='RW12Debug' Or '$(Configuration)'=='RW13Debug'">
+		<DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='RW12Release' Or '$(Configuration)'=='RW13Release'">
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='RW12Debug' Or '$(Configuration)'=='RW12Release'">
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.3062" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)'=='RW13Debug' Or '$(Configuration)'=='RW13Release'">
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3117" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Lib.Harmony" Version="2.1.1">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.2">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.27.0.35380">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+</Project>

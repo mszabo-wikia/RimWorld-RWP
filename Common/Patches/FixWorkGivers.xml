@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="ReleasePrisoner"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Warden_ReleasePrisoner</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="ChatWithPrisoner"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Warden_Chat</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="DeliverFoodToPrisoner"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Warden_DeliverFood</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="DoExecution"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Warden_DoExecution</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="FeedPrisoner"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Warden_Feed</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="TakePrisonerToBed"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Warden_TakeToBed</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="Train"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Train</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="HaulCorpses"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_HaulCorpses</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[giverClass="WorkGiver_DoBill"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_DoBill</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="HaulGeneral"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_HaulGeneral</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="Milk"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Milk</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="Shear"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Shear</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="Repair"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Repair</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[giverClass="WorkGiver_TendOther"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_TendOther</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[giverClass="WorkGiver_TendOtherUrgent"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_TendOtherUrgent</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="VisitSickPawn"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_VisitSickPawn</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="Refuel"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Refuel</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="RearmTurrets"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_Refuel_Turret</giverClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/WorkGiverDef[defName="GrowerHarvest"]/giverClass</xpath>
+		<value>
+			<giverClass>RWP.WorkGiver.WorkGiver_GrowerHarvest</giverClass>
+		</value>
+	</Operation>
+</Patch>
