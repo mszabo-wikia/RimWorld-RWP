@@ -2,21 +2,14 @@ name: Build
 
 on:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - 'README.md'
-    tags-ignore:
-      # This will ignore release versions tagged with a version identifier. We'll 
-      # use a separate workflow for them.
+    tags:
+      # This will only run the release workflow when it's tagged with a version
+      # tag.
       - 'v*'
-  pull_request:
-    paths-ignore: 
-      - README.md
 
 jobs:
   build:
-    name: Build
+    name: Release
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
@@ -35,3 +28,13 @@ jobs:
 
     - name: Test Mod
       run: dotnet test --verbosity normal
+
+    - name: Zip Mod
+      run: zip -r RWP About/ 1.2/ 1.3/ Common/ LICENSE THIRD-PARTY-NOTICES.txt
+
+    - name: Create Release
+      id: create_release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "RWP.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
