@@ -40,6 +40,24 @@ namespace RWP.Patches
         {
             public static void Postfix(IEnumerable<Pawn> pawns, Lord __instance) => RWPMod.Root.LordsPawnsCache.MapPawnsToLord(pawns, __instance);
         }
+
+        /// <summary>
+        /// Remove the mapping between a given lord and pawn from the active <see cref="LordsPawnsCache"/> instance.
+        /// </summary>
+        [HarmonyPatch(typeof(Lord), nameof(Lord.RemovePawn))]
+        public static class Lord_RemovePawn_Patch
+        {
+            public static void Postfix(Pawn p) => RWPMod.Root.LordsPawnsCache.RemoveLordOfPawn(p);
+        }
+#else
+        /// <summary>
+        /// Remove the mapping between a given lord and pawn from the active <see cref="LordsPawnsCache"/> instance.
+        /// </summary>
+        [HarmonyPatch(typeof(Lord), nameof(Lord.Notify_PawnLost))]
+        public static class Lord_Notify_PawnLost_Patch
+        {
+            public static void Prefix(Pawn pawn) => RWPMod.Root.LordsPawnsCache.RemoveLordOfPawn(pawn);
+        }
 #endif
 
         /// <summary>
@@ -49,15 +67,6 @@ namespace RWP.Patches
         public static class Lord_ExposeData_Patch
         {
             public static void Postfix(Lord __instance) => RWPMod.Root.LordsPawnsCache.MapOwnedPawnsToLord(__instance);
-        }
-
-        /// <summary>
-        /// Remove the mapping between a given lord and pawn from the active <see cref="LordsPawnsCache"/> instance.
-        /// </summary>
-        [HarmonyPatch(typeof(Lord), nameof(Lord.Notify_PawnLost))]
-        public static class Lord_Notify_PawnLost_Patch
-        {
-            public static void Prefix(Pawn pawn, Lord __instance) => RWPMod.Root.LordsPawnsCache.RemoveLordOfPawn(pawn, __instance);
         }
     }
 }

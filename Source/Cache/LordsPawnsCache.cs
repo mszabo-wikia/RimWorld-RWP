@@ -77,13 +77,6 @@ namespace RWP.Cache
         /// Remove any cached mapping between the given pawn and lord.
         /// If the pawn is associated with a different lord, the existing mapping is preserved.
         /// </summary>
-        public void RemoveLordOfPawn(Pawn pawn, Lord expectedLord)
-        {
-            int pawnId = pawn.thingIDNumber;
-            if (this.lordsByPawn[pawnId] == expectedLord)
-            {
-                this.lordsByPawn.Remove(pawnId);
-            }
-        }
+        public void RemoveLordOfPawn(Pawn pawn) => this.lordsByPawn.Remove(pawn.thingIDNumber);
     }
 }
