@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using HarmonyLib;
 using RWP.Cache;
 using Verse;
@@ -29,6 +30,17 @@ namespace RWP.Patches
         {
             public static void Postfix(Pawn p, Lord __instance) => RWPMod.Root.LordsPawnsCache.MapLordToPawn(p, __instance);
         }
+
+#if RW13
+        /// <summary>
+        /// Update the active <see cref="LordsPawnsCache"/> instance with mappings between the given lord and pawns.
+        /// </summary>
+        [HarmonyPatch(typeof(Lord), nameof(Lord.AddPawns))]
+        public static class Lord_AddPawns_Patch
+        {
+            public static void Postfix(IEnumerable<Pawn> pawns, Lord __instance) => RWPMod.Root.LordsPawnsCache.MapPawnsToLord(pawns, __instance);
+        }
+#endif
 
         /// <summary>
         /// Initialize the active <see cref="LordsPawnsCache"/> instance with stored mappings between lords and pawns on game initialization.

@@ -32,9 +32,14 @@ namespace RWP.Cache
         /// If a mapping already exists for a given pawn, the existing mapping will be preserved.
         /// NOTE: This is invoked on loading save game data, but also when exporting data during save.
         /// </summary>
-        public void MapOwnedPawnsToLord(Lord lord)
+        public void MapOwnedPawnsToLord(Lord lord) => this.MapPawnsToLord(lord.ownedPawns, lord);
+
+        /// <summary>
+        /// Map the given set of pawns to the specified Lord.
+        /// </summary>
+        public void MapPawnsToLord(IEnumerable<Pawn> pawns, Lord lord)
         {
-            foreach (var pawn in lord.ownedPawns)
+            foreach (Pawn pawn in pawns)
             {
                 this.lordsByPawn[pawn.thingIDNumber] = lord;
             }
