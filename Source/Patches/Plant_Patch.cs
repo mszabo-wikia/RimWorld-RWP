@@ -28,7 +28,7 @@ namespace RWP.Patches
         {
             public static void Postfix(Plant __instance)
             {
-                if (__instance.LifeStage == PlantLifeStage.Mature)
+                if (!__instance.Destroyed && __instance.LifeStage == PlantLifeStage.Mature)
                 {
                     RWPMod.Root.HarvestService.MarkReadyForHarvest(__instance);
                 }
