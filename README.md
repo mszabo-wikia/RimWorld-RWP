@@ -1,4 +1,5 @@
 # RWP - Romulan Weaponized Plasma
+[![Build](https://github.com/mszabo-wikia/RimWorld-RWP/actions/workflows/main.yml/badge.svg)](https://github.com/kbatbouta/RimWorld-RocketMan/actions/workflows/main.yml) ![Version](https://img.shields.io/badge/Rimworld-1.3-brightgreen.svg) ![License](https://img.shields.io/github/license/mszabo-wikia/RimWorld-RWP?color=brightgreen)
 
 An assortment of various performance patches for RimWorld by Ludeon Studios that
 primarily aim to reduce the visible performance impact of the game's job system on large colonies,
