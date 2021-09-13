@@ -28,7 +28,7 @@ namespace RWP.Patches
         {
             public static void Postfix(CompHasGatherableBodyResource __instance)
             {
-                if (__instance.Fullness == 1f && __instance.parent is Pawn animal)
+                if (__instance.Fullness == 1f && __instance.parent is Pawn animal && animal.Spawned)
                 {
                     RWPMod.Root.ColonyAnimalsService.MarkAnimalAsReadyForHarvest(animal);
                 }
