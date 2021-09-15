@@ -48,7 +48,7 @@ namespace RWP
 
             services.AddScoped(typeof(ThingCompCache<>));
             services.AddScoped(provider => new ExtraFactionCache(Find.QuestManager));
-            services.AddScoped(provider => new QuestPartWorkDisabledCache(Find.QuestManager));
+            services.AddScoped<QuestPartWorkDisabledCache>();
             services.AddScoped<PawnRelationsCache>();
             services.AddScoped<MapScopedThingCacheManager>();
             services.AddScoped<LordsPawnsCache>();

@@ -25,26 +25,16 @@ namespace RWP.Cache
     /// </summary>
     public class QuestPartWorkDisabledCache : IPawnLostEventListener
     {
-        private readonly QuestManager questManager;
         private readonly IDictionary<int, IList<QuestPart_WorkDisabled>> questPartsByPawn = new Dictionary<int, IList<QuestPart_WorkDisabled>>();
 
-        public QuestPartWorkDisabledCache(QuestManager questManager) => this.questManager = questManager;
-
-        public IEnumerable<QuestPart_WorkDisabled> GetQuestPartsFor(Pawn pawn)
+        public IEnumerable<QuestPart_WorkDisabled> GetQuestPartsFor(Pawn pawn, IEnumerable<QuestPart_WorkDisabled> questParts)
         {
             if (this.questPartsByPawn.TryGetValue(pawn.thingIDNumber, out var cachedQuestParts))
             {
                 return cachedQuestParts;
             }
 
-            var questParts = this.questManager.QuestsListForReading
-                .Where(quest => quest.State == QuestState.Ongoing)
-                .SelectMany(quest => quest.PartsListForReading)
-                .OfType<QuestPart_WorkDisabled>()
-                .Where(workDisabledPart => workDisabledPart.pawns.Contains(pawn))
-                .ToList();
-
-            this.questPartsByPawn[pawn.thingIDNumber] = questParts;
+            this.questPartsByPawn[pawn.thingIDNumber] = questParts.ToList();
 
             return questParts;
         }

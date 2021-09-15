@@ -54,10 +54,12 @@ namespace RWP.Patches
         [HarmonyPatch(typeof(QuestUtility), nameof(QuestUtility.GetWorkDisabledQuestPart))]
         public static class QuestUtility_GetWorkDisabledQuestPart_Patch
         {
-            public static bool Prefix(Pawn p, ref IEnumerable<QuestPart_WorkDisabled> __result)
+            public static IEnumerable<QuestPart_WorkDisabled> Postfix(IEnumerable<QuestPart_WorkDisabled> questParts, Pawn p)
             {
-                __result = RWPMod.Root.QuestPartWorkDisabledCache.GetQuestPartsFor(p);
-                return false;
+                foreach (QuestPart_WorkDisabled questPart in RWPMod.Root.QuestPartWorkDisabledCache.GetQuestPartsFor(p, questParts))
+                {
+                    yield return questPart;
+                }
             }
         }
     }

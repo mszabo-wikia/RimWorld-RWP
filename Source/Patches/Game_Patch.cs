@@ -26,6 +26,8 @@ namespace RWP.Patches
         public static class Game_LoadGame_Patch
         {
             public static void Prefix() => RWPMod.ResetGameScope();
+
+            public static void Postfix() => RWPMod.ResetGameScope();
         }
 
         /// <summary>
