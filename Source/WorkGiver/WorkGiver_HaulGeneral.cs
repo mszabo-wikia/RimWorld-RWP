@@ -25,6 +25,7 @@ namespace RWP.WorkGiver
     /// </summary>
     public class WorkGiver_HaulGeneral : RimWorld.WorkGiver_HaulGeneral, ICustomForcedWorkGiver
     {
+        private const int MaxRegionsToScan = 512;
         private readonly HaulingService haulingService;
 
         public WorkGiver_HaulGeneral(HaulingService haulingService) => this.haulingService = haulingService;
@@ -45,7 +46,7 @@ namespace RWP.WorkGiver
                 pawn.Map,
                 (from, to) => to.Allows(traverseParms, false),
                 region => this.FindInRegion(region, pawn, regionsToScan, out result),
-                99);
+                MaxRegionsToScan);
 
             if (result != null)
             {
