@@ -27,6 +27,7 @@ namespace RWP.WorkGiver
     /// </summary>
     public class WorkGiver_GrowerHarvest : RimWorld.WorkGiver_GrowerHarvest
     {
+        private const int MaxRegionsToScan = 512;
         private readonly HarvestService service;
 
         public WorkGiver_GrowerHarvest(HarvestService service) => this.service = service;
@@ -44,7 +45,7 @@ namespace RWP.WorkGiver
                 pawn.Map,
                 (_, to) => to.Allows(traverseParms, false),
                 region => this.FindInRegion(region, pawn, pawn.Map, regionsToScan, out result),
-                99);
+                MaxRegionsToScan);
 
             if (result != null)
             {
