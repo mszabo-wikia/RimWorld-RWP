@@ -31,7 +31,7 @@ namespace RWP.WorkGiver
 
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
-            return this.service.GetAnimalsReadyForHarvest<CompMilkable>(pawn.Map).Any();
+            return !this.service.GetAnimalsReadyForHarvest<CompMilkable>(pawn.Map).Any();
         }
 
         public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
