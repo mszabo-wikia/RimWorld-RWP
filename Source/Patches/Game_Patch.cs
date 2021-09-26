@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using HarmonyLib;
 using Verse;
 
@@ -25,9 +28,23 @@ namespace RWP.Patches
         [HarmonyPatch(typeof(Game), nameof(Game.LoadGame))]
         public static class Game_LoadGame_Patch
         {
-            public static void Prefix() => RWPMod.ResetGameScope();
+            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                MethodInfo exposeSmallComponentsMethod = AccessTools.Method(typeof(Game), "ExposeSmallComponents");
+                MethodInfo resetGameScopeMethod = AccessTools.Method(typeof(RWPMod), nameof(RWPMod.ResetGameScope));
 
-            public static void Postfix() => RWPMod.ResetGameScope();
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    yield return instruction;
+
+                    // Reset the dependency injection scope after core components such as QuestManager are unserialized
+                    // so that they can be used as service dependencies
+                    if (instruction.Calls(exposeSmallComponentsMethod))
+                    {
+                        yield return new CodeInstruction(OpCodes.Call, resetGameScopeMethod);
+                    }
+                }
+            }
         }
 
         /// <summary>
