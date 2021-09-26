@@ -50,6 +50,7 @@ namespace RWP.Patches
             public static void Postfix(Pawn p) => RWPMod.Root.LordsPawnsCache.RemoveLordOfPawn(p);
         }
 #else
+
         /// <summary>
         /// Remove the mapping between a given lord and pawn from the active <see cref="LordsPawnsCache"/> instance.
         /// </summary>
