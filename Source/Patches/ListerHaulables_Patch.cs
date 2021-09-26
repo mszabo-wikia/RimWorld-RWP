@@ -31,9 +31,9 @@ namespace RWP.Patches
     {
         public static IEnumerable<MethodBase> TargetMethods()
         {
-            yield return typeof(ListerHaulables).GetMethod("CheckAdd", BindingFlags.NonPublic | BindingFlags.Instance);
-            yield return typeof(ListerHaulables).GetMethod("Check", BindingFlags.NonPublic | BindingFlags.Instance);
-            yield return typeof(ListerHaulables).GetMethod("TryRemove", BindingFlags.NonPublic | BindingFlags.Instance);
+            yield return AccessTools.Method(typeof(ListerHaulables), "CheckAdd");
+            yield return AccessTools.Method(typeof(ListerHaulables), "Check");
+            yield return AccessTools.Method(typeof(ListerHaulables), "TryRemove");
         }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -47,7 +47,7 @@ namespace RWP.Patches
             MethodInfo rootProperty = AccessTools.DeclaredPropertyGetter(typeof(RWPMod), nameof(RWPMod.Root));
             MethodInfo serviceProperty = AccessTools.DeclaredPropertyGetter(typeof(RWPRoot), nameof(RWPRoot.HaulingService));
 
-            FieldInfo mapField = typeof(ListerHaulables).GetField("map", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo mapField = AccessTools.Field(typeof(ListerHaulables), "map");
 
             var instructionsList = instructions.ToList();
 
