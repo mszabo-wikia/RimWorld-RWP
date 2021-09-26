@@ -49,11 +49,20 @@ namespace RWP.Service
             return compQuality != null;
         }
 
+        public void ClearCachedQuality(Thing thing) => this.compQualityCache.Remove(thing);
+
         public bool WantsToBeOn(Thing thing)
         {
-            if (this.compFlickableCache.TryGetComp(thing)?.SwitchIsOn ?? true)
+            CompFlickable compFlickable = this.compFlickableCache.TryGetComp(thing);
+            if (compFlickable?.SwitchIsOn == false)
             {
-                return this.compScheduleCache.TryGetComp(thing)?.Allowed ?? true;
+                return false;
+            }
+
+            CompSchedule compSchedule = this.compScheduleCache.TryGetComp(thing);
+            if (compSchedule?.Allowed == false)
+            {
+                return false;
             }
 
             return true;

@@ -29,9 +29,9 @@ namespace RWP.Patches
         {
             public static void Postfix(Signal signal, QuestPart_ExtraFaction __instance)
             {
-                if (signal.tag == __instance.inSignalRemovePawn)
+                if (signal.tag == __instance.inSignalRemovePawn && signal.args.TryGetArg("SUBJECT", out Pawn removedPawn))
                 {
-                    RWPMod.Root.ExtraFactionCache.RemoveEntriesFor(__instance);
+                    RWPMod.Root.ExtraFactionCache.RemovePawn(removedPawn);
                 }
             }
         }
