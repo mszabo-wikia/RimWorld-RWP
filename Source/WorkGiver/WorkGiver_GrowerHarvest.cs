@@ -28,9 +28,16 @@ namespace RWP.WorkGiver
     public class WorkGiver_GrowerHarvest : RimWorld.WorkGiver_GrowerHarvest
     {
         private const int MaxRegionsToScan = 512;
+        private readonly EffectiveAreaRestrictionEvaluatorFactory effectiveAreaRestrictionEvaluatorFactory;
         private readonly HarvestService service;
 
-        public WorkGiver_GrowerHarvest(HarvestService service) => this.service = service;
+        public WorkGiver_GrowerHarvest(
+            EffectiveAreaRestrictionEvaluatorFactory effectiveAreaRestrictionEvaluatorFactory,
+            HarvestService service)
+        {
+            this.effectiveAreaRestrictionEvaluatorFactory = effectiveAreaRestrictionEvaluatorFactory;
+            this.service = service;
+        }
 
         public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn) => Enumerable.Empty<IntVec3>();
 
@@ -39,12 +46,13 @@ namespace RWP.WorkGiver
             TraverseParms traverseParms = TraverseParms.For(pawn);
             IntVec3? result = null;
             var regionsToScan = this.service.GetRegions();
+            EffectiveAreaRestrictionEvaluator effectiveAreaRestrictionEvaluator = this.effectiveAreaRestrictionEvaluatorFactory.NewEffectiveAreaRestrictionEvaluator(pawn);
 
             RegionTraverser.BreadthFirstTraverse(
                 pawn.Position,
                 pawn.Map,
                 (_, to) => to.Allows(traverseParms, false),
-                region => this.FindInRegion(region, pawn, pawn.Map, regionsToScan, out result),
+                region => this.FindInRegion(region, pawn, pawn.Map, effectiveAreaRestrictionEvaluator, regionsToScan, out result),
                 MaxRegionsToScan);
 
             if (result != null)
@@ -59,15 +67,24 @@ namespace RWP.WorkGiver
             Region region,
             Pawn worker,
             Map map,
+            EffectiveAreaRestrictionEvaluator effectiveAreaRestrictionEvaluator,
             ISet<int> regionsToScan,
             out IntVec3? result)
         {
             regionsToScan.Remove(region.id);
 
+            AreaOverlap overlapWithRestricted = effectiveAreaRestrictionEvaluator.OverlapWith(region);
+
+            if (overlapWithRestricted == AreaOverlap.None)
+            {
+                result = null;
+                return !regionsToScan.Any();
+            }
+
             foreach (IntVec3 plantCell in this.service.GetHarvestablePlantCellsInRegion(region))
             {
                 bool isValidHarvestCell = map.zoneManager.ZoneAt(plantCell) is Zone_Growing || plantCell.GetEdifice(map) is Building_PlantGrower;
-                if (isValidHarvestCell && this.HasJobOnCell(worker, plantCell))
+                if (isValidHarvestCell && effectiveAreaRestrictionEvaluator.CanReach(overlapWithRestricted, plantCell) && this.HasJobOnCell(worker, plantCell))
                 {
                     result = plantCell;
                     return true;

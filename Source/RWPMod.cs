@@ -42,6 +42,7 @@ namespace RWP
             services.AddSingleton<IEqualityComparer<int>, IntEqualityComparer>();
             services.AddSingleton<IEqualityComparer<Pawn>, ThingByIdEqualityComparer<Pawn>>();
             services.AddSingleton<IEqualityComparer<Thing>, ThingByIdEqualityComparer<Thing>>();
+            services.AddSingleton<EffectiveAreaRestrictionEvaluatorFactory>();
 
             services.AddScoped<RWPRoot>();
             services.AddScoped<EventBus>();
