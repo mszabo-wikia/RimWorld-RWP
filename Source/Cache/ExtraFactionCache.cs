@@ -102,7 +102,7 @@ namespace RWP.Cache
         /// <summary>
         /// Optimized equality comparison and hashing for <see cref="ExtraFactionCacheKey" /> instances.
         /// </summary>
-        private class ExtraFactionCacheKeyEqualityComparer : IEqualityComparer<ExtraFactionCacheKey>
+        private sealed class ExtraFactionCacheKeyEqualityComparer : IEqualityComparer<ExtraFactionCacheKey>
         {
             public bool Equals(ExtraFactionCacheKey key, ExtraFactionCacheKey otherKey) => (key.PawnId == otherKey.PawnId) && (key.ExtraFactionType == otherKey.ExtraFactionType);
 

@@ -60,7 +60,7 @@ namespace RWP.Cache
             }
         }
 
-        private class PawnRelationEqualityComparer : IEqualityComparer<PawnRelation>
+        private sealed class PawnRelationEqualityComparer : IEqualityComparer<PawnRelation>
         {
             public bool Equals(PawnRelation x, PawnRelation y) => (x.SubjectId == y.SubjectId) && (x.RelatedId == y.RelatedId);
 
