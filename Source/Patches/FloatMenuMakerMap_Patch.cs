@@ -37,19 +37,21 @@ namespace RWP.Patches
     {
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
+            var instructionsList = instructions.ToList();
+
             MethodInfo potentialWorkThingRequestMethod = AccessTools.DeclaredPropertyGetter(typeof(WorkGiver_Scanner), nameof(WorkGiver_Scanner.PotentialWorkThingRequest));
             MethodInfo thingRequestAcceptsMethod = AccessTools.Method(typeof(ThingRequest), nameof(ThingRequest.Accepts));
             MethodInfo potentialWorkThingRequestForcedMethod = AccessTools.Method(typeof(ICustomForcedWorkGiver), nameof(ICustomForcedWorkGiver.PotentialWorkThingRequestForced));
 
             Label continueRegularChecksLabel = generator.DefineLabel();
-            Label? shouldSkipCheckLabel = FloatMenuMakerMap_Patch.FindShouldSkipCheckLabel(instructions, thingRequestAcceptsMethod);
+            Label? shouldSkipCheckLabel = FloatMenuMakerMap_Patch.FindShouldSkipCheckLabel(instructionsList, thingRequestAcceptsMethod);
 
             LocalBuilder tmpThingRequest = generator.DeclareLocal(typeof(ThingRequest));
 
             if (shouldSkipCheckLabel == null)
             {
                 RWPMod.Logger.Error("Failed to patch FloatMenuMakerMap.AddJobGiverWorkOrders_NewTmp. Some forced jobs may not work as expected.");
-                foreach (CodeInstruction instruction in instructions)
+                foreach (CodeInstruction instruction in instructionsList)
                 {
                     yield return instruction;
                 }
@@ -57,7 +59,7 @@ namespace RWP.Patches
                 yield break;
             }
 
-            foreach (CodeInstruction instruction in instructions)
+            foreach (CodeInstruction instruction in instructionsList)
             {
                 if (instruction.Calls(potentialWorkThingRequestMethod))
                 {
@@ -71,26 +73,23 @@ namespace RWP.Patches
                     yield return new CodeInstruction(OpCodes.Ldloca_S, tmpThingRequest.LocalIndex);
                     yield return new CodeInstruction(OpCodes.Ldloc_3);
                     yield return new CodeInstruction(OpCodes.Call, thingRequestAcceptsMethod);
-                    yield return new CodeInstruction(OpCodes.Dup);
 
                     // If the workgiver has a custom thing request group for forced jobs and it accepts this candidate,
                     // ensure we still check ShouldSkip() as well.
                     yield return new CodeInstruction(OpCodes.Brtrue_S, shouldSkipCheckLabel);
-                    yield return new CodeInstruction(OpCodes.Pop);
 
-                    CodeInstruction loadWorkGiverForFirstRegularCheck = new CodeInstruction(OpCodes.Ldloc_S, 9);
-                    loadWorkGiverForFirstRegularCheck.labels.Add(continueRegularChecksLabel);
-                    yield return loadWorkGiverForFirstRegularCheck;
+                    CodeInstruction pop = new CodeInstruction(OpCodes.Pop);
+                    pop.labels.Add(continueRegularChecksLabel);
+                    yield return pop;
+                    yield return new CodeInstruction(OpCodes.Ldloc_S, 9);
                 }
 
                 yield return instruction;
             }
         }
 
-        private static Label? FindShouldSkipCheckLabel(IEnumerable<CodeInstruction> instructions, MethodInfo thingRequestAcceptsMethod)
+        private static Label? FindShouldSkipCheckLabel(IList<CodeInstruction> instructionsList, MethodInfo thingRequestAcceptsMethod)
         {
-            var instructionsList = instructions.ToList();
-
             for (int i = 0; i < instructionsList.Count; i++)
             {
                 if (instructionsList[i].Calls(thingRequestAcceptsMethod) && instructionsList[i + 1].Branches(out Label? shouldSkipCheckLabel))
