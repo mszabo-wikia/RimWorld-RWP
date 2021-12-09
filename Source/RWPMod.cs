@@ -47,7 +47,6 @@ namespace RWP
             services.AddScoped<RWPRoot>();
             services.AddScoped<EventBus>();
 
-            services.AddScoped(typeof(ThingCompCache<>));
             services.AddScoped(provider => new ExtraFactionCache(Find.QuestManager));
             services.AddScoped<QuestPartWorkDisabledCache>();
             services.AddScoped<PawnRelationsCache>();
@@ -66,7 +65,6 @@ namespace RWP
             });
 
             services.AddScoped<EffectiveAreaRestrictionService>();
-            services.AddScoped<ThingCompService>();
             services.AddScoped<HediffInjuryBleedingService>();
             services.AddScoped(provider => new RefuelService(
                 provider.GetRequiredService<MapScopedThingCacheManager>().GetNamedCache("refuelable-turrets"),

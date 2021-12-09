@@ -29,7 +29,6 @@ namespace RWP
         private readonly HaulingService haulingService;
         private readonly HarvestService harvestService;
         private readonly HediffInjuryBleedingService hediffInjuryBleedingService;
-        private readonly ThingCompService thingCompService;
         private readonly EffectiveAreaRestrictionService effectiveAreaRestrictionService;
         private readonly PawnRelationsCache pawnRelationsCache;
         private readonly MapScopedThingCacheManager mapScopedThingCacheManager;
@@ -55,7 +54,6 @@ namespace RWP
             LordsPawnsCache lordsPawnsCache,
             ExtraFactionCache extraFactionCache,
             HediffImmunizableCache hediffImmunizableCache,
-            ThingCompService thingQualityCategoryService,
             EffectiveAreaRestrictionService effectiveAreaRestrictionService)
         {
             this.eventBus = eventBus;
@@ -72,7 +70,6 @@ namespace RWP
             this.lordsPawnsCache = lordsPawnsCache;
             this.extraFactionCache = extraFactionCache;
             this.hediffImmunizableCache = hediffImmunizableCache;
-            this.thingCompService = thingQualityCategoryService;
             this.effectiveAreaRestrictionService = effectiveAreaRestrictionService;
         }
 
@@ -101,8 +98,6 @@ namespace RWP
         public HediffImmunizableCache HediffImmunizableCache => this.hediffImmunizableCache;
 
         public HediffInjuryBleedingService HediffInjuryBleedingService => this.hediffInjuryBleedingService;
-
-        public ThingCompService ThingCompService => this.thingCompService;
 
         public EventBus EventBus => this.eventBus;
 
